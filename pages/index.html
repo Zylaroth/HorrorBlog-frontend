@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Horror Blog: Рецензии</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
+  <link href="../assets/css/main.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+
+<body>
+  <div class="modal modal-review" id="reviewModal">
+    <div class="modal-background" id="reviewModalBackground"></div>
+    <div class="modal-content text-middle">
+      <div class="tile is-ancestor">
+        <div class="tile is-4 is-vertical is-parent">
+          <div class="tile is-child box has-background-white-ter">
+            <figure class="image is-3by4">
+              <img id="review-image-url">
+            </figure>
+          </div>
+          <div class="tile is-child box has-background-white-ter">
+            <p class="subtitle"><strong>Время публикации: </strong><span id="review-date"></span></p>
+          </div>
+          <div class="tile is-child has-background-transparent"></div>
+          <div class="tile is-child has-background-transparent"></div>
+          <div class="tile is-child has-background-transparent"></div>
+          <div class="tile is-child has-background-transparent"></div>
+          <div class="tile is-child has-background-transparent"></div>
+          <div class="tile is-child has-background-transparent"></div>
+          <div class="tile is-child has-background-transparent"></div>
+        </div>
+        <div class="tile is-parent">
+          <div class="tile is-child box has-background-white-ter">
+            <p class="title" id="review-title"></p>
+            <p class="subtitle text-normal" id="review-text"></p>
+          </div>
+        </div>
+      </div>
+      <button class="modal-close is-large" aria-label="close" id="reviewModalCloseButton"></button>
+    </div>
+  </div>
+  <div class="modal modal-movie">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <div class="modal-title-container">
+          <p class="modal-card-title">Добавить</p>
+          <div class="select">
+            <select id="modalTypeSelect">
+              <option value="review">рецензию</option>
+              <option value="movie">фильм</option>
+            </select>
+          </div>
+        </div>
+        <button class="modal-delete delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <div id="reviewFieldsContainer">
+          <div class="field">
+            <label class="label">Название</label>
+            <div class="control">
+              <div class="select">
+                <select id="movieSelect">
+                  <option value="0">Не загружено</option>
+                </select>
+              </div>
+            </div>
+            <p class="help">Название фильма</p>
+          </div>
+          <div class="field">
+            <label class="label">Текст</label>
+            <div class="control">
+              <textarea class="textarea" id="review_text" placeholder="Введите текст отзыва"></textarea>
+            </div>
+            <p class="help">Текст отзыва</p>
+          </div>
+          <footer class="modal-card-foot has-background-transparent">
+            <button class="button is-success" id="send-review">Отправить</button>
+            <button class="modal-cancel button">Отмена</button>
+          </footer>
+        </div>
+
+        <div id="movieFieldsContainer" style="display: none;">
+          <div class="field">
+            <label class="label">Название</label>
+            <div class="control">
+              <input class="input" type="text" id="movie" placeholder="Введите название фильма" />
+            </div>
+            <p class="help">Название фильма</p>
+          </div>
+          <div class="field">
+            <label class="label">Режиссёр</label>
+            <div class="control">
+              <textarea class="textarea" id="director" placeholder="Введите ФИО режиссера"></textarea>
+            </div>
+            <p class="help">ФИО режиссёра</p>
+          </div>
+          <div class="field">
+            <label class="label">Актёры</label>
+            <div class="control">
+              <textarea class="textarea" id="actors" placeholder="Введите ФИО актёров"></textarea>
+            </div>
+            <p class="help">ФИО актёров</p>
+          </div>
+          <div class="field">
+            <label class="label">Рейтинг</label>
+            <div class="control">
+              <input class="input" type="number" step="0.1" min="1" max="10" id="rating"
+                placeholder="Введите рейтинг" />
+            </div>
+            <p class="help">Рейтинг фильма</p>
+          </div>
+          <div class="field">
+            <label class="label">Дата релиза</label>
+            <div class="control">
+              <input class="input" type="date" id="releaseDate" />
+            </div>
+            <p class="help">Премьера (МИР)</p>
+          </div>
+          <div class="field">
+            <label class="label">Жанры</label>
+            <div class="control">
+              <input class="input" type="text" id="genres" placeholder="Введите жанры через запятую" />
+            </div>
+            <p class="help">Жанры фильма (разделители - запятые)</p>
+          </div>
+          <div class="field">
+            <label class="label">Ссылка на изображение</label>
+            <div class="control">
+              <input class="input" type="text" id="url" placeholder="Введите ссылку" />
+            </div>
+            <p class="help">Постер</p>
+          </div>
+          <footer class="modal-card-foot has-background-transparent">
+            <button class="button is-success" id="send-movie">Отправить</button>
+            <button class="modal-cancel button">Отмена</button>
+          </footer>
+        </div>
+
+      </section>
+    </div>
+  </div>
+  <header>
+    <nav class="level">
+      <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+      <div class="level-left">
+        <div class="level-item">
+          <h1 class="title is-3">
+            <a href="index.html"><strong class="nosifer has-text-primary-light">Horror Blog</strong></a>
+          </h1>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="navbar-menu">
+          <p class="level-item has-text-weight-bold"><a class="button is-primary is-light href-main">Главная</a>
+          </p>
+          <p class="level-item has-text-weight-bold"><a class="button is-primary is-light href-movie" >Фильмы</a>
+          </p>
+          <p class="level-item has-text-weight-bold"><a class="href-review lh button is-primary is-light">СР</a>
+          </p>
+          <p class="level-item has-text-weight-bold"><a class="modal-active button is-success">ДОБ</a></p>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="field has-addons is-relative search">
+          <p class="control search-element-1">
+            <input id="search" class="input" type="text" placeholder="Поиск по странице">
+          </p>
+          <p class="control search-element-2">
+            <button id="query" class="button is-success">Поиск</button>
+          </p>
+          <div id="searchResults" class="box"></div>
+        </div>
+      </div>
+    </nav>
+    <div class="navbar-active">
+      <p class="level-item has-text-weight-bold"><a class="button is-primary is-light" id="href-main">Главная</a>
+      </p>
+      <p class="level-item has-text-weight-bold"><a class="button is-primary is-light" id="href-movie">Фильмы</a>
+      </p>
+      <p class="level-item has-text-weight-bold"><a id="href-review" class="lh button is-primary is-light">СР</a>
+      </p>
+      <p class="level-item has-text-weight-bold"><a class="modal-active button is-success">ДОБ</a></p>
+    </div>
+  </header>
+  <main>
+    <div class="hidder-b hidder-a">
+      <section class="text-normal container">
+        <div class="columns">
+          <div class="column">
+            <div class="box is-relative has-background-transparent p-0 pt-6">
+              <h1 class="title mb-0">
+                <strong class="has-text-white">Новинки</strong>
+              </h1>
+              <img id="prev-image">
+              <div id="carousel-container">
+                <div id="carousel"></div>
+                <div id="prev">&#10094;</div>
+                <div id="next">&#10095;</div>
+              </div>
+              <img id="next-image" class="side-image">
+            </div>
+          </div>
+          <div class="column">
+            <div class="box has-background-transparent has-text-white">
+              <h3 class="has-text-weight-bold">Добро пожаловать!</h3>
+              <p id="typedText"></p>
+            </div>
+          </div>
+      </section>
+    </div>
+    <div class="hidder-a">
+      <section class="container" id="review"></section>
+    </div>
+    <section class="container" id="movies">
+      <div class="hidder-b">
+        <nav class="navbar has-background-transparent" role="navigation" aria-label="main navigation">
+          <h1 class="title mb-0">
+            <strong class="has-text-white">Фильмы</strong>
+          </h1>
+          <div class="navbar-end">
+            <div class="navbar-item">
+              <div class="field is-grouped">
+                <div class="navbar-item has-dropdown is-hoverable">
+                  <a class="navbar-link">
+                    <button class="button is-success">Жанры</button>
+                  </a>
+                  <div id="genresDropdown" class="navbar-dropdown">
+                  </div>
+                </div>
+                <div class="navbar-item">
+                  <p class="control" id="populateButton">
+                    <button class="button is-success">Показать все</button>
+                  </p>
+                </div>
+                <div class="navbar-item">
+                  <button class="sort-btn">▼</button>
+                </div>
+                <div class="navbar-item">
+                  <div class="is-overlay loadingIndicator is-hidden">
+                    <div class="loader"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+        <div class="table-container">
+          <table class="table has-background-white-ter is-hoverable is-fullwidth">
+            <thead>
+              <tr>
+                <th>№</th>
+                <th><abbr title="image">Постер</abbr></th>
+                <th><abbr title="title">Название</abbr></th>
+                <th><abbr title="director">Режиссёр</abbr></th>
+                <th><abbr title="release_date">Дата</abbr></th>
+                <th><abbr title="rating">Рейтинг</abbr></th>
+                <th><abbr title="genre">Жанры</abbr></th>
+                <th><abbr title="actors">Актёры</abbr></th>
+              </tr>
+            </thead>
+            <tbody class="movie">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <section class="additional-features">
+      <div class="slider">
+        <div class="slide-track">
+          <div class="slide">
+            <img class="centered-image" src="https://upload.wikimedia.org/wikipedia/ru/f/ff/2D_FILMS_LIGHT.png"
+              alt="" />
+          </div>
+          <div class="slide">
+            <img class="centered-image" src="https://upload.wikimedia.org/wikipedia/ru/d/db/Albatros_Films_logo.png"
+              alt="" />
+          </div>
+          <div class="slide">
+            <img class="centered-image"
+              src="https://upload.wikimedia.org/wikipedia/ru/3/3b/Amblin_Entertainment_logo.png" alt="" />
+          </div>
+          <div class="slide">
+            <img class="centered-image" src="https://upload.wikimedia.org/wikipedia/ru/9/97/Cazzo_Film.gif" alt="" />
+          </div>
+          <div class="slide">
+            <img class="centered-image"
+              src="https://upload.wikimedia.org/wikipedia/ru/5/5b/DreamWorks_Animation_SKG_logo.png" alt="" />
+          </div>
+          <div class="slide">
+            <img class="centered-image" src="https://upload.wikimedia.org/wikipedia/ru/b/b3/ImageMovers_logo.svg"
+              alt="" />
+          </div>
+          <div class="slide">
+            <img class="centered-image" src="https://upload.wikimedia.org/wikipedia/ru/2/21/Frost_Productions_Logo.jpg"
+              alt="" />
+          </div>
+          <div class="slide">
+            <img class="centered-image" src="https://upload.wikimedia.org/wikipedia/ru/6/6a/Hollywood_Pictures.jpg"
+              alt="" />
+          </div>
+          <div class="slide">
+            <img class="centered-image" src="https://upload.wikimedia.org/wikipedia/ru/a/a8/InlayFilm.png" alt="" />
+          </div>
+          <div class="slide">
+            <img class="centered-image" src="https://upload.wikimedia.org/wikipedia/ru/a/aa/Logo_amedia.gif" alt="" />
+          </div>
+          <div class="slide">
+            <img class="centered-image" src="https://upload.wikimedia.org/wikipedia/ru/1/16/Logo_EuropaCorp.JPG"
+              alt="" />
+          </div>
+          <div class="slide">
+            <img class="centered-image"
+              src="https://upload.wikimedia.org/wikipedia/ru/e/e1/Motion_Picture_%26_General_Investment.jpg" alt="" />
+          </div>
+          <div class="slide">
+            <img class="centered-image" src="https://upload.wikimedia.org/wikipedia/ru/d/db/MutantEnemy.jpg" alt="" />
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="contacts">
+      <h2>Связаться с нами</h2>
+      <p>Почта: contact@horrorblog.com</p>
+      <p>Телефон: +7 193 857 6899</p>
+    </section>
+    <p class="footer">Знакомься с миром фильмов по отзывам!</p>
+  </footer>
+</body>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous"></script>
+<script src="../assets/js/main.js"></script>
+
+</html>
