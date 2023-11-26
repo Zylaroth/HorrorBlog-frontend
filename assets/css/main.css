@@ -356,3 +356,19 @@ td {
 .navbar-link:not(.is-arrowless) {
     padding-right: 2.5em !important;
 }
+
+@media (max-width: 768px) {
+    .is-hidden-mobile {
+        display: none !important;
+    }
+
+    .is-active-mobile {
+        display: block !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .is-active-mobile {
+        display: none !important;
+    }
+}

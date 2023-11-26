@@ -237,11 +237,11 @@
                 </div>
                 <div class="navbar-item">
                   <p class="control" id="populateButton">
-                    <button class="button is-success">Показать все</button>
+                    <button class="button is-success is-hidden-mobile">Показать все</button>
                   </p>
                 </div>
                 <div class="navbar-item">
-                  <button class="sort-btn">▼</button>
+                  <button class="sort-btn is-hidden-mobile">▼</button>
                 </div>
                 <div class="navbar-item">
                   <div class="is-overlay loadingIndicator is-hidden">
@@ -251,6 +251,13 @@
               </div>
             </div>
           </div>
+          <p class="control" id="populateButton">
+            <button class="button is-success is-active-mobile">Показать все</button>
+          </p>
+        </div>
+        <div class="navbar-item">
+          <button class="sort-btn is-active-mobile">▼</button>
+        </div>
         </nav>
         <div class="table-container">
           <table class="table has-background-white-ter is-hoverable is-fullwidth">
